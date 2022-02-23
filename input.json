@@ -1,10 +1,89 @@
 {
-   "data":{
-      "disbursementRequest":{
-         "approvedFundingAmountInCents":"100",
-         "ckRadId":"VHkdmFuY2UgV2l0aCBDcmVkaXQgS2FybWE=",
-         "filingId":"34114",
-         "totalRefundAmountInCents":null
+  '$schema': 'http://json-schema.org/draft-07/schema',
+  type: 'object',
+  title: 'UserInfo',
+  description: 'User information from Marketing Preferences for CK',
+  required: [
+    'user'
+  ],
+  customerOwned: 'false',
+  additionalProperties: true,
+  properties: {
+    user: {
+      type: 'object',
+      description: 'Marketing Preferences , authId and intuit tid.',
+      intuitDataClassification: 'SENSITIVE',
+      required: [
+        'id',
+        'externalIds',
+        'transactionId',
+        'marketingPreference'
+      ],
+      properties: {
+        id: {
+          type: 'integer',
+          description: 'Intuit unique identifier for a user.',
+          intuitDataClassification: 'RESTRICTED'
+        },
+        externalIds: {
+          type: 'array',
+          description: 'User\'s user id and pseudonym id',
+          intuitDataClassification: 'RESTRICTED',
+          items: {
+            type: 'object',
+            description: 'An explanation about the purpose of this instance.',
+            intuitDataClassification: 'RESTRICTED',
+            required: [
+              'localId',
+              'namespaceId'
+            ],
+            properties: {
+              localId: {
+                type: 'string',
+                description: 'user id pseudonym',
+                intuitDataClassification: 'RESTRICTED'
+              },
+              namespaceId: {
+                enum: [
+                  'PSEUDONYM_ID'
+                ],
+                description: 'pseudonym',
+                intuitDataClassification: 'RESTRICTED'
+              }
+            }
+          }
+        },
+        transactionId: {
+          type: 'string',
+          description: 'An Intuit tid',
+          intuitDataClassification: 'RESTRICTED'
+        },
+        marketingPreference: {
+          type: 'object',
+          description: 'User Marketing Preferences .',
+          intuitDataClassification: 'SENSITIVE',
+          required: [
+            'ckOptIn',
+            'emailAddress'
+          ],
+          properties: {
+            ckOptIn: {
+              type: 'boolean',
+              description: 'A field which indicates whether the user opted in or opted out of notification',
+              intuitDataClassification: 'RESTRICTED'
+            },
+            emailAddress: {
+              type: 'string',
+              description: 'Email address',
+              intuitDataClassification: 'SENSITIVE',
+              pattern: '^\\S+@\\S+\\.\\S+$',
+              format: 'email',
+              minLength: 6,
+              maxLength: 127
+            }
+          }
+        }
       }
-   }
+    }
+  }
 }
